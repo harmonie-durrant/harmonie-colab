@@ -1,4 +1,4 @@
-# harmonie-colab
+# harmonie-collab
 A collaboration tool, usefull for studying, work, and friends to share ideas together.
 
 Some features include:
