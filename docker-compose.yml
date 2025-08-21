@@ -1,0 +1,15 @@
+services:
+  frontend:
+    container_name: harmonie-colllab-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file: "frontend.env"
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - hcollab
+
+networks:
+  hcollab:
