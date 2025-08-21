@@ -1,5 +1,5 @@
 # harmonie-colab
-A collaboration tool, usefull for stidying, work, and friends to share ideas together.
+A collaboration tool, usefull for studying, work, and friends to share ideas together.
 
 Some features include:
 - **Shared calendar:** Inspired by Google Calendar's approach to shared calendars
