@@ -4,12 +4,28 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    env_file: "frontend.env"
+    env_file:
+      - ./frontend/.env
     restart: always
     ports:
       - 3000:3000
     networks:
       - hcollab
+  db:
+    container_name: harmonie-colllab-db
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    env_file:
+      - ./database/.env
+    restart: always
+    ports:
+      - "5432:5432"
+      - "8080:8080"
+    networks:
+      - hcollab
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
 
 networks:
   hcollab:

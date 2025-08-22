@@ -1,29 +1,40 @@
-from typing import Union
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy import select
+from sqlmodel import Session
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+from db import get_session
+from models import *
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None] = None
-
 
 @app.get("/")
-def read_root():
+async def index():
     return {"Hello": "World"}
 
 
-@app.get("/items")
-def getItems():
-    return {"items": []}
+@app.get("/users", response_model=List[Users])
+def get_user(*, session: Session = Depends(get_session)):
+    users = session.exec(select(Users)).scalars().all()
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    return users
 
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+
+@app.post("/users", response_model=Users)
+def create_user(*, session: Session = Depends(get_session), user: UsersCreate):
+    add_user = Users.from_orm(user)
+    session.add(add_user)
+    session.commit()
+    session.refresh(add_user)
+
+    return add_user
+
+
+@app.get("/users/{user_id}", response_model=Users)
+def get_user_by_id(*, session: Session = Depends(get_session), user_id: int):
+    user = session.get(Users, user_id)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+
+    return user
