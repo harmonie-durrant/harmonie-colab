@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy import select
 from sqlmodel import Session
 
-from db import get_session
-from models import *
+from .db import get_session
+from .models import *
 
 app = FastAPI()
 

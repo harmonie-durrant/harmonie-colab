@@ -11,6 +11,18 @@ services:
       - 3000:3000
     networks:
       - hcollab
+  backend:
+    container_name: harmonie-colllab-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - hcollab
   db:
     container_name: harmonie-colllab-db
     build:
