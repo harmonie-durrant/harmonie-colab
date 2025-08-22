@@ -1,4 +1,4 @@
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re verify
 
 all: docker-build docker-up
 
@@ -26,3 +26,6 @@ fclean: clean clean-db
 
 re: clean all
 	@echo "🔨 Rebuild complete..."
+
+verify:
+	@./verify.sh
