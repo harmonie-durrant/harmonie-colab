@@ -1,23 +1,30 @@
 'use client';
 
+import EditorJS, { BlockToolConstructable } from '@editorjs/editorjs';
 import { useEffect, useRef } from 'react';
 
 export default function Page() {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<EditorJS | null>(null);
 
   useEffect(() => {
     // Dynamic imports to ensure client-side only execution
     const initializeEditor = async () => {
-      const EditorJS = (await import('@editorjs/editorjs')).default;
+      const EditorJSModule = (await import('@editorjs/editorjs')).default;
       const Header = (await import('@editorjs/header')).default;
       const List = (await import('@editorjs/list')).default;
 
       if (editorRef.current === null) {
-        editorRef.current = new EditorJS({
+        editorRef.current = new EditorJSModule({
           holder: 'editorjs',
           tools: {
-            header: Header as any,
-            list: List as any
+            header: {
+              class: Header as unknown as BlockToolConstructable,
+              inlineToolbar: ['link']
+            },
+            list: {
+              class: List as unknown as BlockToolConstructable,
+              inlineToolbar: true
+            }
           },
         });
       }
