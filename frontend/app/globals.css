@@ -1,3 +1,8 @@
 @import "tailwindcss";
 
+@plugin '@tailwindcss/typography';
 @plugin "daisyui";
+
+.ce-block__content{
+  @apply prose
+}
